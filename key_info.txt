@@ -1,0 +1,2 @@
+alias            victorina
+password         12345
