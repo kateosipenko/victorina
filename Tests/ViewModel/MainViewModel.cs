@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Tests.Models;
 using Tests.Helpers;
 using Windows.UI.Xaml;
+using System;
 
 namespace Tests.ViewModel
 {
@@ -22,7 +23,7 @@ namespace Tests.ViewModel
 	/// </summary>
 	public class MainViewModel : ViewModelBase
 	{
-		private const string ResultTextFormat = "{0}, дякуємо за участь!\n\rВи змогли відповісти на всі питання за {1} секунд.";
+		private const string ResultTextFormat = "{0}, дякуємо за участь!\n\rВи змогли відповісти на всі питання за {1} секунд{2}.";
 
 		#region FIELDS
 
@@ -194,10 +195,10 @@ namespace Tests.ViewModel
 				}
 				else
 				{
-					this.navigationProvider.Navigate(typeof(ResultPage));
 					IsTimerRunning = false;
-					UserResultText = string.Format(ResultTextFormat, UserName, CurrentTime);
 					GoogleDriveSDK.GoogleDriveManager.CreateFile(CurrentTime + "_" + UserName + ".txt");
+					this.navigationProvider.Navigate(typeof(ResultPage));
+					AnimateResultText();
 				}
 
 				CurrentAnswer = string.Empty;
@@ -207,6 +208,28 @@ namespace Tests.ViewModel
 				CurrentAnswer = string.Empty;
 			}
 		}
+
+		private async void AnimateResultText()
+		{
+			int last = Convert.ToInt32(CurrentTime.ToString()[CurrentTime.ToString().Length - 1].ToString());
+			string ending = string.Empty;
+			if (last == 1)
+			{
+				ending = "у";
+			}
+			else if (last >= 2 && last <= 4)
+			{
+				ending = "и";
+			}
+
+			string resultText = string.Format(ResultTextFormat, UserName, CurrentTime, ending);
+			foreach (var letter in resultText)
+			{
+				await Task.Delay(20);
+				UserResultText += letter;
+			}
+		}
+
 		private void GoToUserCommandExecute()
 		{
 			this.navigationProvider.Navigate(typeof(UserDataPage));

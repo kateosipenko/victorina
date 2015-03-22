@@ -7,6 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
+	<Page.Resources>
+		<Storyboard x:Name="PageLoaded">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="button">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</Page.Resources>
 
 	<Grid Margin="24">
 		<VisualStateManager.VisualStateGroups>
@@ -25,14 +37,14 @@
 				   TextAlignment="Center" TextWrapping="Wrap"
 				   FontSize="64"/>
 
-		<Image Source="Images/teacher.png"
-               Stretch="Uniform"
+		<Image x:Name="image" Source="Images/teacher.png"
+               Stretch="Uniform" Opacity="0"
                HorizontalAlignment="Left"
                VerticalAlignment="Bottom"
                Grid.Row="2"/>
 		
-		<Button Grid.Row="2" Content="на старт"
-				Command="{Binding GoToStartCommand}"
+		<Button x:Name="button" Grid.Row="2" Content="на старт"
+				Command="{Binding GoToStartCommand}" Opacity="0"
 				Style="{StaticResource ViolettButtonStyle}"/>
 	</Grid>
 </Page>

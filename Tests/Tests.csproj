@@ -143,6 +143,7 @@
     <Content Include="Assets\Logo30.png" />
     <Content Include="Assets\Logo50.scale-100.png" />
     <Content Include="Assets\Logo80.png" />
+    <Content Include="Images\teacher.png" />
     <Content Include="Splash\SplashScreen.png" />
     <Content Include="Images\arrowRight.png" />
     <Content Include="Images\arrow.png" />
@@ -156,7 +157,6 @@
     <Content Include="Images\math.png" />
     <Content Include="Images\panas.png" />
     <Content Include="Images\physics.png" />
-    <Content Include="Images\teacher.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
