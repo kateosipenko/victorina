@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -71,7 +72,14 @@ namespace GoogleDriveSDK
 			AuthData result = new AuthData();
 			using (var client = new HttpClient())
 			{
-				HttpResponseMessage response = await client.GetAsync(Config.ApiFunctions.RefreshTokenUri);
+				string contentText = Config.ApiFunctions.RefreshTokenContent;
+				string authHeader = Config.AuthData.TokenType + " " + Config.AuthData.AccessToken;
+				client.DefaultRequestHeaders.Add(Config.ApiParameters.Authorization, authHeader);
+				StringContent content = new StringContent(contentText);
+				content.Headers.Remove("Content-Type");
+				content.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+
+				HttpResponseMessage response = await client.PostAsync(Config.ApiFunctions.RefreshTokenUri, content);
 				if (response.StatusCode == System.Net.HttpStatusCode.OK)
 				{
 					string responseContent = await response.Content.ReadAsStringAsync();

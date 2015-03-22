@@ -2,12 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="using:Tests.ViewModel"
              xmlns:local="using:Tests">
-  <Application.Resources>
-    <ResourceDictionary>
-      <viewModels:ViewModelLocator x:Key="Locator" />
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Styles/GlobalStyles.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
+	<Application.Resources>
+		<ResourceDictionary>
+			<viewModels:ViewModelLocator x:Key="Locator" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Styles/GlobalStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>

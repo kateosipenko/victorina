@@ -21,8 +21,7 @@
 	<Color x:Key="PinkColor">#EC93B6</Color>
 	<SolidColorBrush x:Key="PinkColorBrush" Color="{StaticResource PinkColor}" />
 
-	<Color x:Key="UnselectedColor">#4075B8</Color>
-	<SolidColorBrush x:Key="UnselectedColorBrush" Color="{StaticResource UnselectedColor}" />
+	<SolidColorBrush x:Key="UnselectedColorBrush" Color="{StaticResource VioletColor}" />
     
     <Style TargetType="Frame">
 		<Setter Property="Background" Value="White" />
@@ -34,7 +33,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TimerControl">
-                    <TextBlock x:Name="text" />
+                    <TextBlock x:Name="text" HorizontalAlignment="Center"
+					 VerticalAlignment="Center" FontSize="64" FontFamily="Segoe Script" >
+                    	<TextBlock.Foreground>
+                    		<SolidColorBrush Color="{StaticResource BlueColor}"/>
+                    	</TextBlock.Foreground>
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -46,14 +50,14 @@
     	<Setter Property="Padding" Value="1,4,0,0"/>
     	<Setter Property="HorizontalAlignment" Value="Stretch"/>
     	<Setter Property="VerticalAlignment" Value="Center"/>
-    	<Setter Property="HorizontalContentAlignment" Value="Left"/>
-    	<Setter Property="VerticalContentAlignment" Value="Top"/>
-    	<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-    	<Setter Property="FontSize" Value="50"/>
+    	<Setter Property="HorizontalContentAlignment" Value="Center"/>
+    	<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="FontFamily" Value="Segoe Print"/>
+    	<Setter Property="FontSize" Value="36"/>
     	<Setter Property="Template">
     		<Setter.Value>
     			<ControlTemplate TargetType="RadioButton">
-    				<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Height="100" Margin="0,0,12,12">
+    				<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Height="130" Margin="0,0,24,19">
     					<VisualStateManager.VisualStateGroups>
     						<VisualStateGroup x:Name="CommonStates">
     							<VisualState x:Name="Normal"/>
@@ -82,7 +86,11 @@
     					</VisualStateManager.VisualStateGroups>
 
     					<Grid x:Name="grid" Background="{StaticResource UnselectedColorBrush}">
-    						<ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    						<ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
+											  ContentTemplate="{TemplateBinding ContentTemplate}"											  
+											  ContentTransitions="{TemplateBinding ContentTransitions}"
+											  Content="{TemplateBinding Content}" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+											  Margin="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
     					</Grid>
 
     				</Border>
@@ -90,5 +98,82 @@
     		</Setter.Value>
     	</Setter>
     </Style>
-    
+
+	<Style x:Key="ViolettButtonStyle" TargetType="Button">
+		<Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
+		<Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderThemeBrush}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="HorizontalAlignment" Value="Right"/>
+		<Setter Property="VerticalAlignment" Value="Bottom"/>
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+		<Setter Property="FontWeight" Value="SemiBold"/>
+		<Setter Property="FontSize" Value="32"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid VerticalAlignment="Stretch" Width="400">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource YellowColor}"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BlueColorBrush}"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource VioletColorBrush}"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Border">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource VioletColorBrush}"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<Storyboard>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualWhite"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualBlack"/>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Unfocused"/>
+								<VisualState x:Name="PointerFocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" VerticalAlignment="Stretch"
+								BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+							<ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
+											  ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}"
+											  Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Border>
+						<Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
+						<Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 </ResourceDictionary>

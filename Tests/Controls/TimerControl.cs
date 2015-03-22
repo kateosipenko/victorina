@@ -15,21 +15,21 @@ namespace Tests.Controls
     {
         private int currentTimeInSeconds = 0;
 
-        #region CurrentTimeProperty
+		#region CurrentTimeProperty
 
-        public static readonly DependencyProperty CurrentTimeProperty = DependencyProperty.Register(
-            "CurrentTimeProperty",
-            typeof(string),
-            typeof(TimerControl),
-            new PropertyMetadata(null));
+		public static readonly DependencyProperty CurrentTimeProperty = DependencyProperty.Register(
+			"CurrentTime",
+			typeof(int),
+			typeof(TimerControl),
+			new PropertyMetadata(null));
 
-        public string CurrentTime
-        {
-            get { return (string)GetValue(CurrentTimeProperty); }
-            set { SetValue(CurrentTimeProperty, value); }
-        }
+		public int CurrentTime
+		{
+			get { return (int)GetValue(CurrentTimeProperty); }
+			set { SetValue(CurrentTimeProperty, value); }
+		}
 
-        #endregion CurrentTimeProperty
+		#endregion CurrentTimeProperty
 
         #region IsRunningProperty
 
@@ -77,7 +77,7 @@ namespace Tests.Controls
             {
                 timer.Dispose();
                 currentTimeInSeconds = 0;
-                CurrentTime = TimeSpan.FromSeconds(0).ToString("mm:ss");
+				CurrentTime = currentTimeInSeconds;
                 timer = null;
             }
         }
@@ -92,16 +92,14 @@ namespace Tests.Controls
 
         private async void OnTick()
         {
-
-            
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
 					if (text != null)
 					{
 						currentTimeInSeconds++;
-						CurrentTime = TimeSpan.FromSeconds(currentTimeInSeconds).ToString("mm\\:ss");
-						text.Text = CurrentTime;
+						CurrentTime = currentTimeInSeconds;
+						text.Text = TimeSpan.FromSeconds(currentTimeInSeconds).ToString("mm\\:ss");
 					}
                 });            
         }

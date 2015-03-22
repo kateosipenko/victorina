@@ -5,12 +5,15 @@
 	  xmlns:local="using:Tests"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  DataContext="{Binding Main, Source={StaticResource Locator}}"
+	  xmlns:behaviors="using:Tests.Behaviors"
+	  xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  mc:Ignorable="d">
 
 	<Grid Margin="24">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="0.3*" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="0.3*" />
@@ -22,19 +25,24 @@
 			   VerticalAlignment="Top"
 			   Grid.Row="0"/>
 
-		<controls:TimerControl Grid.Row="0"
+		<controls:TimerControl Grid.Row="0" CurrentTime="{Binding CurrentTime, Mode=TwoWay}"
 							   HorizontalAlignment="Left"
-							   IsRunning="True" />
+							   IsRunning="True" Margin="0" />
 
 		<TextBlock Text="{Binding CurrentQuestion.QuestionText}"
-				   FontSize="56"
-				   Grid.Row="1"
+				   FontSize="48"
+				   Grid.Row="2"
 				   Foreground="Black"
-				   FontFamily="Segoe WP Semilight"
+				   FontFamily="Segoe Print" 
 				   TextWrapping="Wrap" />
 
-		<Grid Grid.Row="2"
-			  Margin="0,24,0,0">
+
+		<Image Source="/Images/panas.png" Visibility="{Binding ImageQuestionVisibility}"
+			   Stretch="Uniform" Grid.Row="0" MaxHeight="170"
+			   VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+
+		<Grid Grid.Row="3" VerticalAlignment="Center"
+			  Margin="0,48,-24,0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
@@ -48,37 +56,42 @@
 						 VerticalContentAlignment="Center"
 						 Command="{Binding SetAnswerCommand}"
 						 CommandParameter="{Binding CurrentQuestion.Answer0}"
-						 Style="{StaticResource RadioButtonStyle}"/>
+						 Style="{StaticResource RadioButtonStyle}">
+				<interactivity:Interaction.Behaviors>
+					<behaviors:AnswerToCheckedBehavior CurrentAnswer="{Binding CurrentAnswer}"
+													   TargetAnswer="{Binding CurrentQuestion.Answer0}" />
+				</interactivity:Interaction.Behaviors>
+			</RadioButton>
 
 			<RadioButton Content="{Binding CurrentQuestion.Answer1}"
 						 Style="{StaticResource RadioButtonStyle}"
 						 Command="{Binding SetAnswerCommand}"
 						 CommandParameter="{Binding CurrentQuestion.Answer1}"
 						 VerticalContentAlignment="Center"
-						 Grid.Column="1"/>
+						 Grid.Column="1">
+				<interactivity:Interaction.Behaviors>
+					<behaviors:AnswerToCheckedBehavior CurrentAnswer="{Binding CurrentAnswer}"
+													   TargetAnswer="{Binding CurrentQuestion.Answer1}" />
+				</interactivity:Interaction.Behaviors>
+			</RadioButton>
 
 			<RadioButton Content="{Binding CurrentQuestion.Answer2}"
 						 Style="{StaticResource RadioButtonStyle}"
 						 Command="{Binding SetAnswerCommand}"
 						 CommandParameter="{Binding CurrentQuestion.Answer2}"
 						 VerticalContentAlignment="Center"
-						 Grid.Row="1"/>
+						 Grid.Row="1">
+				<interactivity:Interaction.Behaviors>
+					<behaviors:AnswerToCheckedBehavior CurrentAnswer="{Binding CurrentAnswer}"
+													   TargetAnswer="{Binding CurrentQuestion.Answer2}" />
+				</interactivity:Interaction.Behaviors>
+			</RadioButton>
 
-			<!--<Button Content="{Binding CurrentQuestion.Answer0}"
-							Height="100"
-							Command="{Binding Main.SetAnswerCommand, Source={StaticResource Locator}}"
-							CommandParameter="{Binding}"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							Background="Aqua" />-->
 		</Grid>
 
-		<Button Grid.Row="3"
-				Content="Далi"
-				FontSize="48"
-				Background="Green"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Bottom"
+		<Button Grid.Row="4"
+				Content="далi"
+				Style="{StaticResource ViolettButtonStyle}"
 				Command="{Binding GoToNextQuestionCommand}" />
 
 		<Image Source="Images/teacher.png"

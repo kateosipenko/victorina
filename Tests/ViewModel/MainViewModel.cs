@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Models;
 using Tests.Helpers;
+using Windows.UI.Xaml;
 
 namespace Tests.ViewModel
 {
@@ -21,14 +22,19 @@ namespace Tests.ViewModel
 	/// </summary>
 	public class MainViewModel : ViewModelBase
 	{
+		private const string ResultTextFormat = "{0}, дякуємо за участь!\n\rВи змогли відповісти на всі питання за {1} секунд.";
+
 		#region FIELDS
 
 		private List<Question> questions;
 		private string userName;
 		private NavigationProvider navigationProvider;
 		private Question currentQuestion;
-		private int correctAnswersCount = 0;
 		private string currentAnswer = string.Empty;
+		private int currentTime = 0;
+		private bool isTimerRunning = false;
+		private string userResultText = string.Empty;
+		private Visibility imageQuestionVisibility = Visibility.Collapsed;
 
 		#endregion FIELDS
 
@@ -55,6 +61,36 @@ namespace Tests.ViewModel
 			}
 		}
 
+		public Visibility ImageQuestionVisibility
+		{
+			get { return imageQuestionVisibility; }
+			set
+			{
+				imageQuestionVisibility = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public string UserResultText
+		{
+			get { return userResultText; }
+			set
+			{
+				userResultText = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public bool IsTimerRunning
+		{
+			get { return isTimerRunning; }
+			set
+			{
+				isTimerRunning = value;
+				RaisePropertyChanged();
+			}
+		}
+
 		public Question CurrentQuestion
 		{
 			get { return this.currentQuestion; }
@@ -62,6 +98,34 @@ namespace Tests.ViewModel
 			{
 				this.currentQuestion = value;
 				this.RaisePropertyChanged();
+				if (this.currentQuestion.QuestionImage != null)
+				{
+					ImageQuestionVisibility = Visibility.Visible;
+				}
+				else
+				{
+					ImageQuestionVisibility = Visibility.Collapsed;
+				}
+			}
+		}
+
+		public int CurrentTime
+		{
+			get { return this.currentTime; }
+			set
+			{
+				this.currentTime = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public string CurrentAnswer
+		{
+			get { return currentAnswer; }
+			set
+			{
+				currentAnswer = value;
+				RaisePropertyChanged();
 			}
 		}
 
@@ -88,6 +152,7 @@ namespace Tests.ViewModel
 		public RelayCommand GoToQuestionsCommand { get; private set; }
 		public RelayCommand<string> SetAnswerCommand { get; private set; }
 		public RelayCommand GoToNextQuestionCommand { get; private set; }
+		public RelayCommand GoToStartCommand { get; private set; }
 
 		#endregion COMMANDS
 
@@ -99,6 +164,7 @@ namespace Tests.ViewModel
 			this.GoToQuestionsCommand = new RelayCommand(this.GoToQuestionsCommndExecute, this.GoToQuestionsCommandCanExecute);
 			this.SetAnswerCommand = new RelayCommand<string>(this.SetAnswerCommndExecute);
 			this.GoToNextQuestionCommand = new RelayCommand(this.GoToNextQuestionCommandExecute);
+			this.GoToStartCommand = new RelayCommand(this.GoToStartExecute);
 
 			await Task.Run(() => this.GenerateQuestions());
 
@@ -106,20 +172,21 @@ namespace Tests.ViewModel
 
 		private void SetAnswerCommndExecute(string answer)
 		{
-			this.currentAnswer = answer;
+			this.CurrentAnswer = answer;
 		}
 
 		private void Clear()
 		{
 			CurrentQuestion = questions[0];
-			correctAnswersCount = 0;
+			CurrentTime = 0;
+			IsTimerRunning = true;
+			UserResultText = string.Empty;
 		}
 
 		private void GoToNextQuestionCommandExecute()
 		{
 			if (this.currentAnswer == currentQuestion.CorrectAnswer)
 			{
-				this.correctAnswersCount++;
 				int newQuestionIndex = questions.IndexOf(this.currentQuestion) + 1;
 				if (newQuestionIndex < questions.Count)
 				{
@@ -128,13 +195,16 @@ namespace Tests.ViewModel
 				else
 				{
 					this.navigationProvider.Navigate(typeof(ResultPage));
+					IsTimerRunning = false;
+					UserResultText = string.Format(ResultTextFormat, UserName, CurrentTime);
+					GoogleDriveSDK.GoogleDriveManager.CreateFile(CurrentTime + "_" + UserName + ".txt");
 				}
 
-				currentAnswer = string.Empty;
+				CurrentAnswer = string.Empty;
 			}
 			else
 			{
-				// TODO: implement animation of incorrect question
+				CurrentAnswer = string.Empty;
 			}
 		}
 		private void GoToUserCommandExecute()
@@ -151,6 +221,12 @@ namespace Tests.ViewModel
 		private bool GoToQuestionsCommandCanExecute()
 		{
 			return !string.IsNullOrEmpty(UserName);
+		}
+
+		private void GoToStartExecute()
+		{
+			navigationProvider.Navigate(typeof(StartPage));
+			UserName = string.Empty;
 		}
 
 		private void GenerateQuestions()

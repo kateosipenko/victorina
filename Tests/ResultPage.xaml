@@ -5,9 +5,34 @@
     xmlns:local="using:Tests"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid Margin="24">
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="VisualStateGroup"/>
+		</VisualStateManager.VisualStateGroups>
 
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="0.3*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="1" Text="{Binding UserResultText}"
+				   HorizontalAlignment="Center" Foreground="Black"
+				   VerticalAlignment="Center" FontFamily="Segoe Print"
+				   TextAlignment="Center" TextWrapping="Wrap"
+				   FontSize="64"/>
+
+		<Image Source="Images/teacher.png"
+               Stretch="Uniform"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Grid.Row="2"/>
+		
+		<Button Grid.Row="2" Content="на старт"
+				Command="{Binding GoToStartCommand}"
+				Style="{StaticResource ViolettButtonStyle}"/>
+	</Grid>
 </Page>

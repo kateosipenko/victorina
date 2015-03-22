@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace GoogleDriveSDK
 
 		private static AuthData authData = new AuthData();
 
-		public static AuthData AuthData { 
+		public static AuthData AuthData
+		{
 			get { return authData; }
 			set { authData = value; }
 		}
@@ -39,11 +41,11 @@ namespace GoogleDriveSDK
 		public class ApiFunctions
 		{
 			public const string CreateFile = "https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart";
-			public const string RefreshTokenUri = "https://accounts.google.com/o/oauth2/token?refresh_token=" 
-				+ RefreshToken 
-				+ "client_id=" + ApiData.ClientId
-				+ "client_secret=" + ApiData.ClientSecret
-				+ "grant_type=refresh_token";
+			public const string RefreshTokenUri = "https://accounts.google.com/o/oauth2/token";
+			public static string RefreshTokenContent = "refresh_token=" + WebUtility.UrlEncode(RefreshToken)
+				+ "&client_id=" + WebUtility.UrlEncode(ApiData.ClientId)
+				+ "&client_secret=" + WebUtility.UrlEncode(ApiData.ClientSecret)
+				+ "&grant_type=refresh_token";
 		}
 
 		public class ApiParameters

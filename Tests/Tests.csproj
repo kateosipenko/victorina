@@ -15,6 +15,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -105,6 +107,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\AnswerToCheckedBehavior.cs" />
+    <Compile Include="Behaviors\Behavior.cs" />
     <Compile Include="Controls\TimerControl.cs" />
     <Compile Include="Helpers\OniDriveManager.cs" />
     <Compile Include="Models\Question.cs" />
@@ -133,10 +137,13 @@
     <None Include="Tests_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Logo.scale-100.png" />
-    <Content Include="Assets\SmallLogo.scale-100.png" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\Logo140.png" />
+    <Content Include="Assets\Logo150.png" />
+    <Content Include="Assets\Logo180.png" />
+    <Content Include="Assets\Logo30.png" />
+    <Content Include="Assets\Logo50.scale-100.png" />
+    <Content Include="Assets\Logo80.png" />
+    <Content Include="Splash\SplashScreen.png" />
     <Content Include="Images\arrowRight.png" />
     <Content Include="Images\arrow.png" />
     <Content Include="Images\background.png" />
@@ -149,7 +156,7 @@
     <Content Include="Images\math.png" />
     <Content Include="Images\panas.png" />
     <Content Include="Images\physics.png" />
-    <Content Include="Images\teacher.png" />
+    <Content Include="Images\teacher.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -203,13 +210,18 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\win8\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleDriveSDK\GoogleDriveSDK.csproj">
       <Project>{0b7e0ef7-e9f2-4e19-97c4-ffe7cd4cf4ce}</Project>
       <Name>GoogleDriveSDK</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

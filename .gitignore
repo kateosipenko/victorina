@@ -3,3 +3,4 @@
 *.sbr
 obj/
 .suo
+AppPackages/
